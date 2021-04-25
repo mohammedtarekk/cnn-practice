@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import numpy as np
 
 
@@ -14,23 +13,34 @@ def signum(W, X):
 
 
 def train(x_train, y_train, isBiased, learning_rate, epochsNum):
-    # 1- create random weight vector w
-    W = np.random.rand(1,len(x_train[0, :]))
+    #----- Just for test the code ------
+    learning_rate = 0.01
+    epochsNum = 100
+    #-----------------------------------
 
-    epocs = 100
-    alpha = 0.001
+    # 1- create random weight vector w
+    W = np.random.rand(1,x_train.shape[1])
+    y_pred = np.empty(y_train.shape)
     # 2- iterate on training data
-    for epoc in range(epocs):
-        for i in range(len(x_train)):
+    for epoc in range(epochsNum):
+        for i in range(x_train.shape[0]):
             X = x_train[i, :]
             T = y_train[i]
-            y_pred = signum(W, X)
+            y_pred[i] = (signum(W, X))
+            if y_pred[i] != T:
+                loss = T - y_pred[i]
+                W = W + learning_rate * loss * X
 
-            if y_pred != T:
-                loss = abs(T - y_pred)
-                W = W + alpha * loss * X
+    y_pred = np.array(y_pred)
+    accuracy = 0.0
+    for y in range(len(y_pred)):
+        if(y_pred[i] == y_train[i]):
+            accuracy+=1
+    accuracy = accuracy/len(y_pred)
+    print("========  Accuracy: ", end=' ')
+    print("{:.0%}".format(accuracy))
 
-    print(loss)
+
 def test(x_test, y_test):
     pass
 
@@ -39,24 +49,22 @@ def evaluate():
     # It should return the accuracy and show the confusion matrix
     pass
 
-f = open("IrisData.txt", "r")
-x = []
-y = []
-for i in f:
-    if i[0] == "X":
-        continue
-    elements = i.split(',')
-    x.append((elements[0:4]))
-    if elements[4] == "Iris-setosa\n":
-        y.append(0)
-    elif elements[4] == "Iris-versicolor\n":
-        y.append(1)
-    else:
-        y.append(2)
+# f = open("IrisData.txt", "r")
+# x = []
+# y = []
+# for i in f:
+#     if i[0] == "X":
+#         continue
+#     elements = i.split(',')
+#     x.append((elements[0:4]))
+#     if elements[4] == "Iris-setosa\n":
+#         y.append(0)
+#     elif elements[4] == "Iris-versicolor\n":
+#         y.append(1)
+#     else:
+#         y.append(2)
 
     # print(x.split(',')[0:4])
-x_train = np.array(x).astype(np.float)
-y_train = np.array(y)
+# x_train = np.array(x).astype(np.float)
+# y_train = np.array(y)
 # np.append(y_train, np.zeros(y_train.shape),axis=0)
-
-train(x_train, y_train,False)

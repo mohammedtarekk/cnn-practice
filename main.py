@@ -177,7 +177,8 @@ def modelOperations():
         # Prepare Data to be sent to the model
         x_train, y_train, x_test, y_test = prepareData(firstFeatureCB.get(), secondFeatureCB.get(), firstClassCB.get(), secondClassCB.get())
 
-        # perceptron.train(x_train, y_train, isBiased.get(), learningRate_txt.get(), epochsNum_txt.get()) , train then show drawing of plotted line
+        # train then show drawing of plotted line
+        perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()))
         # perceptron.test(x_test, y_test)
         # perceptron.evaluate() : show confusion matrix and accuracy
 

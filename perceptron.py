@@ -1,4 +1,4 @@
-def train(x_train, y_train, isBiased):
+def train(x_train, y_train, isBiased, learning_rate, epochsNum):
     pass
 
 def test(x_test, y_test):

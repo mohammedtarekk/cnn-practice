@@ -5,11 +5,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import perceptron
+from sklearn.model_selection import train_test_split
 
 ################ LOAD DATA ###################
 data = pd.read_csv('IrisData.txt')
-
-x_train, y_train, x_test, y_test = [], [], [], []
 
 def prepareData(F1, F2, C1, C2):
     tempData = pd.DataFrame()
@@ -23,10 +22,28 @@ def prepareData(F1, F2, C1, C2):
             removedClass = x
             break
 
-    tempData = tempData[tempData.Class != removedClass]
+    tempData = tempData[tempData.Class != removedClass]  # remove the third class from data
 
-    # split
+    # split classes
+    class1 = tempData[tempData.Class != C2] #.sample(frac=1)
+    class2 = tempData[tempData.Class != C1] #.sample(frac=1)
 
+    # map classes into 1 and -1
+    class1.loc[:, ['Class']] = 1
+    class2.loc[:, ['Class']] = -1
+
+    # split train and test
+    x_train = class1.iloc[:30, :2]
+    x_train = x_train.append(class2.iloc[:30, :2])
+    y_train = class1.iloc[:30, 2]
+    y_train = y_train.append(class2.iloc[:30, 2])
+
+    x_test = class1.iloc[30:, :2]
+    x_test = x_test.append(class2.iloc[30:, :2])
+    y_test = class1.iloc[30:, 2]
+    y_test = y_test.append(class2.iloc[30:, 2])
+
+    return x_train, y_train, x_test, y_test
 
 # Variables Operations
 AllFeatures = list(data.columns[:len(data.columns) - 1])
@@ -35,7 +52,7 @@ AllClasses = list(data['Class'].unique())
 ################ GUI Creation ################
 # parent window
 parent = tk.Tk()
-parent.geometry("700x500")
+parent.geometry("300x400")
 parent.title("Perceptron")
 parent.resizable(0, 0)
 
@@ -69,11 +86,26 @@ secondFeatureCB['state'] = 'readonly'
 secondFeatureCB.grid(column=1, row=row, padx=10, pady=10)
 
 # visualize features
-def visualize(X1, Y1, X2, Y2):
+def visualize():
     if firstFeatureCB.get() != "" and secondFeatureCB.get() != "":
+
+        # prepare data to be visualized
+        firstFeatureIndex = AllFeatures.index(firstFeatureCB.get())
+        secondFeatureIndex = AllFeatures.index(secondFeatureCB.get())
+
+        X1 = data.iloc[:50, firstFeatureIndex]
+        Y1 = data.iloc[:50, secondFeatureIndex]
+
+        X2 = data.iloc[50:100, firstFeatureIndex]
+        Y2 = data.iloc[50:100, secondFeatureIndex]
+
+        X3 = data.iloc[100:150, firstFeatureIndex]
+        Y3 = data.iloc[100:150, secondFeatureIndex]
+
         plt.figure("Data visualization")
         plt.scatter(X1, Y1)
         plt.scatter(X2, Y2)
+        plt.scatter(X3, Y3)
         plt.xlabel(firstFeatureCB.get())
         plt.ylabel(secondFeatureCB.get())
         plt.show()
@@ -143,13 +175,11 @@ def modelOperations():
        epochsNum_txt.get() != "":
 
         # Prepare Data to be sent to the model
-        prepareData(firstFeatureCB.get(), secondFeatureCB.get(), firstClassCB.get(), secondClassCB.get())
+        x_train, y_train, x_test, y_test = prepareData(firstFeatureCB.get(), secondFeatureCB.get(), firstClassCB.get(), secondClassCB.get())
 
-        # Drawing Dataset
-        # ...
-
-        # Model Calling
-        # ...
+        # perceptron.train(x_train, y_train, isBiased.get(), learningRate_txt.get(), epochsNum_txt.get()) , train then show drawing of plotted line
+        # perceptron.test(x_test, y_test)
+        # perceptron.evaluate() : show confusion matrix and accuracy
 
     else:
         tkmb.showinfo("Missing Data", "Enter all data")

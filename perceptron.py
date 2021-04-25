@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import numpy as np
 
 
@@ -11,8 +12,8 @@ def signum(W, X):
     return 0
 
 
-def train(x_train, y_train, isBiased):
 
+def train(x_train, y_train, isBiased, learning_rate, epochsNum):
     # 1- create random weight vector w
     W = np.random.rand(1,len(x_train[0, :]))
 

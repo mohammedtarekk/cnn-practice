@@ -86,7 +86,7 @@ secondFeatureCB['state'] = 'readonly'
 secondFeatureCB.grid(column=1, row=row, padx=10, pady=10)
 
 # visualize features
-def visualize():
+def visualize(x_values=[],y_values=[],drawLine = False):
     if firstFeatureCB.get() != "" and secondFeatureCB.get() != "":
 
         # prepare data to be visualized
@@ -108,6 +108,8 @@ def visualize():
         plt.scatter(X3, Y3)
         plt.xlabel(firstFeatureCB.get())
         plt.ylabel(secondFeatureCB.get())
+        if drawLine:
+            plt.plot(x_values,y_values)
         plt.show()
     else:
         tkmb.showinfo("Missing Data", "Select 2 features")

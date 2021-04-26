@@ -104,8 +104,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/perceptron.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="36" />
+          <line>13</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

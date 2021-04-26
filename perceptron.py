@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import plot_confusion_matrix
 def signum(W, X):
     v = np.dot(W, X)
     if v > 0:
@@ -19,7 +20,7 @@ def draw_classification_line(W, X, Y):
 
     plt.figure("Data visualization")
     plt.scatter(X[0:30], Y[0:30])
-    plt.scatter(X[31:60], Y[31:60])
+    plt.scatter(X[30:], Y[30:])
     plt.plot(x_values, y_values)
     plt.show()
 
@@ -50,47 +51,54 @@ def train(x_train, y_train, isBiased, learning_rate, epochsNum):
             y_pred[i] = signum(W, X)  # calculate the signum and get y predict
 
             # calculate the loss and update W
-            loss = target - y_pred[i]
-            W = W + learning_rate * loss * X
+            if target != y_pred[i]:
+                loss = target - y_pred[i]
+                W = W + learning_rate * loss * X
 
 
-    y_pred = np.array(y_pred)
+    # y_pred = np.array(y_pred)
     accuracy = 0.0
     for y in range(len(y_pred)):
-        if(y_pred[i] == y_train[i]):
+        if(y_pred[y] == y_train[y]):
             accuracy+=1
     accuracy = accuracy/len(y_pred)
     print("======== Training Accuracy: ", end=' ')
     print("{:.0%}".format(accuracy))
 
-    # Drawing the classification line
+    # # Drawing the classification line
     draw_classification_line(W, x_train[:, 1], x_train[:, 2])
+    return W
 
 
-def test(x_test, y_test):
-    pass
+def test(x_test, y_test, W):
+    x_test = np.c_[np.ones((x_test.shape[0], 1)), x_test]
+    y_test = np.expand_dims(y_test, axis=1)
+    NumOfMiss = 0
+    predicted = np.empty(y_test.shape)
+    for i in range(len(x_test)):
+        X = x_test[i]
+        predicted[i] = signum(W, X)
+        if predicted[i] != y_test[i]:
+            NumOfMiss += 1
+    Accuracy = 100 - ((NumOfMiss / len(x_test)) * 100)
+    print("======== Testing Accuracy is : ", Accuracy, "%")
+    draw_classification_line(W, x_test[:, 1], x_test[:, 2])
+    evaluate(y_test, predicted)
 
 
-def evaluate():
+def evaluate(y_test, y_pred):
     # It should return the accuracy and show the confusion matrix
-    pass
+    labels = ['class 1', 'class 2']
+    cm = confusion_matrix(y_test, y_pred)
+    print(cm)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(cm)
+    plt.title('Confusion matrix of the classifier')
+    fig.colorbar(cax)
+    ax.set_xticklabels([''] + labels)
+    ax.set_yticklabels([''] + labels)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.show()
 
-# f = open("IrisData.txt", "r")
-# x = []
-# y = []
-# for i in f:
-#     if i[0] == "X":
-#         continue
-#     elements = i.split(',')
-#     x.append((elements[0:4]))
-#     if elements[4] == "Iris-setosa\n":
-#         y.append(0)
-#     elif elements[4] == "Iris-versicolor\n":
-#         y.append(1)
-#     else:
-#         y.append(2)
-
-    # print(x.split(',')[0:4])
-# x_train = np.array(x).astype(np.float)
-# y_train = np.array(y)
-# np.append(y_train, np.zeros(y_train.shape),axis=0)

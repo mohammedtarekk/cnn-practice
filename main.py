@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import perceptron
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 ################ LOAD DATA ###################
 data = pd.read_csv('IrisData.txt')
@@ -86,7 +87,7 @@ secondFeatureCB['state'] = 'readonly'
 secondFeatureCB.grid(column=1, row=row, padx=10, pady=10)
 
 # visualize features
-def visualize(x_values=[],y_values=[],drawLine = False):
+def visualize():
     if firstFeatureCB.get() != "" and secondFeatureCB.get() != "":
 
         # prepare data to be visualized
@@ -108,8 +109,6 @@ def visualize(x_values=[],y_values=[],drawLine = False):
         plt.scatter(X3, Y3)
         plt.xlabel(firstFeatureCB.get())
         plt.ylabel(secondFeatureCB.get())
-        if drawLine:
-            plt.plot(x_values,y_values)
         plt.show()
     else:
         tkmb.showinfo("Missing Data", "Select 2 features")
@@ -179,11 +178,19 @@ def modelOperations():
         # Prepare Data to be sent to the model
         x_train, y_train, x_test, y_test = prepareData(firstFeatureCB.get(), secondFeatureCB.get(), firstClassCB.get(), secondClassCB.get())
 
-        # train then show drawing of plotted line
-        perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()))
-        # perceptron.test(x_test, y_test)
-        # perceptron.evaluate() : show confusion matrix and accuracy
+        # Data scaling
+        standard = StandardScaler()
+        standard.fit(x_train)
+        x_train = standard.transform(x_train)
 
+        standard.fit(x_test)
+        x_test = standard.transform(x_test)
+
+        # train then show drawing of plotted line
+        W = perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()))
+        perceptron.test(x_test, y_test, W)
+        # show confusion matrix and accuracy
+        # perceptron.evaluate()
     else:
         tkmb.showinfo("Missing Data", "Enter all data")
 

@@ -5,6 +5,7 @@ import itertools
 
 
 from sklearn.metrics import plot_confusion_matrix
+
 def signum(W, X):
     v = np.dot(W, X)
     if v > 0:
@@ -15,11 +16,16 @@ def signum(W, X):
     return 0
 
 def draw_classification_line(W, X, Y):
+
     b = W[0, 0]
-    # p1 = [0, (-b/W[1])]
-    # p2 = [(-b/W[2]), 0]
-    x_values = [(-b/W[0, 1]), 0]
-    y_values = [0, (-b/W[0, 2])]
+    X1 = max(X)
+    y1 = (- X1 * W[0, 1] - b) / W[0, 2]
+
+    X2 = min(X)
+    y2 = (- X2 * W[0, 1] - b) / W[0, 2]
+
+    y_values = [y1, y2]
+    x_values = [X1, X2]
 
     plt.figure("Data visualization")
     plt.scatter(X[0:30], Y[0:30])
@@ -85,8 +91,8 @@ def test(x_test, y_test, W):
             NumOfMiss += 1
     Accuracy = 100 - ((NumOfMiss / len(x_test)) * 100)
     print("======== Testing Accuracy is : ", Accuracy, "%")
-    draw_classification_line(W, x_test[:, 1], x_test[:, 2])
-    evaluate(y_test, predicted)
+    # draw_classification_line(W, x_test[:, 1], x_test[:, 2])
+    # evaluate(y_test, predicted)
 
 
 def evaluate(y_test, y_pred):

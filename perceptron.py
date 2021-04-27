@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import itertools
-
-
 from sklearn.metrics import plot_confusion_matrix
 
 def signum(W, X):
@@ -79,7 +77,7 @@ def train(x_train, y_train, isBiased, learning_rate, epochsNum):
     return W
 
 
-def test(x_test, y_test, W):
+def test(x_test, y_test, W,labels):
     x_test = np.c_[np.ones((x_test.shape[0], 1)), x_test]
     y_test = np.expand_dims(y_test, axis=1)
     NumOfMiss = 0
@@ -91,13 +89,13 @@ def test(x_test, y_test, W):
             NumOfMiss += 1
     Accuracy = 100 - ((NumOfMiss / len(x_test)) * 100)
     print("======== Testing Accuracy is : ", Accuracy, "%")
-    # draw_classification_line(W, x_test[:, 1], x_test[:, 2])
-    # evaluate(y_test, predicted)
+    #draw_classification_line(W, x_test[:, 1], x_test[:, 2])
+    evaluate(y_test, predicted,labels)
 
 
-def evaluate(y_test, y_pred):
+def evaluate(y_test, y_pred,labels):
     # It should return the accuracy and show the confusion matrix
-    labels = ['class 1', 'class 2']
+    #labels = ['class 1', 'class 2']
     #labels=[firstClassCB.get(),secondClassCB.get()]
     confusion_mat = confusion_matrix(y_test, y_pred)
     plot_confusion_matrix(confusion_mat, classes=labels)
@@ -120,5 +118,7 @@ def plot_confusion_matrix(cm, classes):
     plt.ylabel('Actual')
     plt.xlabel('Predicted')
     print(cm)
+    plt.show()
     ConAccuracy = ((cm[0][0]+cm[1][1])/(cm[0][0]+cm[0][1]+cm[1][0]+cm[1][1]))*100
     print("The Accuracy from Confusion Matrix is : ",ConAccuracy , "%" )
+

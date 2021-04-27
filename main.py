@@ -188,9 +188,10 @@ def modelOperations():
 
         # train then show drawing of plotted line
         W = perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()))
-        perceptron.test(x_test, y_test, W)
+        labels=[firstClassCB.get(),secondClassCB.get()]
+        perceptron.test(x_test, y_test, W,labels)
         # show confusion matrix and accuracy
-        # perceptron.evaluate()
+       # perceptron.evaluate()
     else:
         tkmb.showinfo("Missing Data", "Enter all data")
 

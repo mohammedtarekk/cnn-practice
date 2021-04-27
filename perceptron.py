@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
+import itertools
+
+
 from sklearn.metrics import plot_confusion_matrix
 def signum(W, X):
     v = np.dot(W, X)
@@ -89,16 +92,27 @@ def test(x_test, y_test, W):
 def evaluate(y_test, y_pred):
     # It should return the accuracy and show the confusion matrix
     labels = ['class 1', 'class 2']
-    cm = confusion_matrix(y_test, y_pred)
-    print(cm)
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    cax = ax.matshow(cm)
-    plt.title('Confusion matrix of the classifier')
-    fig.colorbar(cax)
-    ax.set_xticklabels([''] + labels)
-    ax.set_yticklabels([''] + labels)
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-    plt.show()
+    #labels=[firstClassCB.get(),secondClassCB.get()]
+    confusion_mat = confusion_matrix(y_test, y_pred)
+    plot_confusion_matrix(confusion_mat, classes=labels)
 
+
+def plot_confusion_matrix(cm, classes):
+    plt.figure(figsize = (7,7))
+    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.title("Confusion Matrix")
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=90)
+    plt.yticks(tick_marks, classes)
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+    plt.tight_layout()
+    plt.ylabel('Actual')
+    plt.xlabel('Predicted')
+    print(cm)
+    ConAccuracy = ((cm[0][0]+cm[1][1])/(cm[0][0]+cm[0][1]+cm[1][0]+cm[1][1]))*100
+    print("The Accuracy from Confusion Matrix is : ",ConAccuracy , "%" )

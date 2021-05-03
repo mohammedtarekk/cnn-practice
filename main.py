@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import perceptron
+import Adaline
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -194,18 +195,44 @@ def modelOperations():
         x_test = standard.transform(x_test)
 
         # train then show drawing of plotted line
-        W = perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), int(MSE_Threshold_txt.get()))
-        perceptron.test(x_test, y_test, W)
-        # show confusion matrix and accuracy
-        # perceptron.evaluate()
+
+        if(MSE_Threshold_txt.get() == ""):
+            return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get())
+
+        return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), int(MSE_Threshold_txt.get())
     else:
         tkmb.showinfo("Missing Data", "Enter all data")
+
+def perceptronModel():
+
+    x_train, y_train, isBiased, learningRate, epochNum = modelOperations()
+
+    W = perceptron.train(x_train, y_train, isBiased, learningRate, epochNum)
+
+    labels = [firstClassCB.get(), secondClassCB.get()]
+    perceptron.test(x_test, y_test, W, labels)
+    # show confusion matrix and accuracy
+
+
+def adalineModel():
+    x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold= modelOperations()
+
+    W = Adaline.train(x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold)
+
+    labels = [firstClassCB.get(), secondClassCB.get()]
+    Adaline.test(x_test, y_test, W, labels)
+
+# perceptron.evaluate()
 
 ###################### END Model ########################
 
 row = 8
-startButton = ttk.Button(parent, text="Start", command=modelOperations)
-startButton.grid(column=0, row=row, padx=10, pady=10)
+perceptronButton = ttk.Button(parent, text="perceptron", command=perceptronModel)
+perceptronButton.grid(column=0, row=row, padx=10, pady=10)
+
+row = 8
+adalineButton = ttk.Button(parent, text="adaline", command=adalineModel)
+adalineButton.grid(column=1, row=row, padx=10, pady=10)
 
 # render
 parent.mainloop()

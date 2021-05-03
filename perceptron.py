@@ -32,8 +32,7 @@ def draw_classification_line(W, X, Y):
 
 
 
-
-def train(x_train, y_train, isBiased, learning_rate, epochsNum):
+def train(x_train, y_train, isBiased, learning_rate, epochsNum, MSE_Threshold):
 
     # 1- add bias vector and create random weight vector w
     x_train = np.c_[np.ones((x_train.shape[0], 1)), x_train]
@@ -107,4 +106,6 @@ def evaluate(y_test, y_pred):
     plt.xlabel('Predicted')
     plt.ylabel('True')
     plt.show()
+
+
 

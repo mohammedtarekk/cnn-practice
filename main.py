@@ -160,8 +160,15 @@ label.grid(column=0, row=row, padx=10, pady=10)
 epochsNum_txt = ttk.Entry(parent, width=5)
 epochsNum_txt.grid(column=1, row=row, padx=10, pady=10)
 
-# Bias checkbox
+# Enter no. of epochs
 row = 7
+label = ttk.Label(parent, text="Enter MSE threshold:")
+label.grid(column=0, row=row, padx=10, pady=10)
+MSE_Threshold_txt = ttk.Entry(parent, width=5)
+MSE_Threshold_txt.grid(column=1, row=row, padx=10, pady=10)
+
+# Bias checkbox
+row = 8
 isBiased = tk.IntVar()
 checkBox = ttk.Checkbutton(parent, text="Use Bias", variable=isBiased)
 checkBox.grid(column=0, row=row, padx=10, pady=10)
@@ -187,7 +194,7 @@ def modelOperations():
         x_test = standard.transform(x_test)
 
         # train then show drawing of plotted line
-        W = perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()))
+        W = perceptron.train(np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), int(MSE_Threshold_txt.get()))
         perceptron.test(x_test, y_test, W)
         # show confusion matrix and accuracy
         # perceptron.evaluate()

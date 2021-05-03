@@ -199,13 +199,13 @@ def modelOperations():
         if(MSE_Threshold_txt.get() == ""):
             return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get())
 
-        return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), int(MSE_Threshold_txt.get())
+        return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), float(MSE_Threshold_txt.get())
     else:
         tkmb.showinfo("Missing Data", "Enter all data")
 
 def perceptronModel():
 
-    x_train, y_train, isBiased, learningRate, epochNum = modelOperations()
+    x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold = modelOperations()
 
     W = perceptron.train(x_train, y_train, isBiased, learningRate, epochNum)
 

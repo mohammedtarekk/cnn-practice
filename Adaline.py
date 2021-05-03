@@ -32,6 +32,14 @@ def draw_classification_line(W, X, Y):
     plt.show()
 
 
+def MSE(y_pred,y_train):
+    sum = 0
+    for i in range(len(y_pred)):
+        diff = y_train[i] - y_pred[i]
+        sum += (diff*diff)
+    return sum/y_pred.shape[0]
+
+
 
 def train(x_train, y_train, isBiased, learning_rate, epochsNum, MSE_Threshold):
 
@@ -54,17 +62,20 @@ def train(x_train, y_train, isBiased, learning_rate, epochsNum, MSE_Threshold):
             X = x_train[i]   # X vector of each sample
             target = y_train[i]  # Y value for each sample
 
-            y_pred[i] = signum(W, X)  # calculate the signum and get y predict
+            y_pred[i] = np.dot(W, X)  # calculate y predict
 
             # calculate the loss and update W
             if target != y_pred[i]:
                 loss = target - y_pred[i]
                 W = W + learning_rate * loss * X
+        if (MSE(y_pred,y_train)<MSE_Threshold):
+            break
 
 
-    # y_pred = np.array(y_pred)
     accuracy = 0.0
     for y in range(len(y_pred)):
+        X = x_train[y]
+        y_pred[y] = signum(W, X)
         if(y_pred[y] == y_train[y]):
             accuracy+=1
     accuracy = accuracy/len(y_pred)

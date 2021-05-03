@@ -54,7 +54,7 @@ AllClasses = list(data['Class'].unique())
 ################ GUI Creation ################
 # parent window
 parent = tk.Tk()
-parent.geometry("300x400")
+parent.geometry("300x450")
 parent.title("Perceptron")
 parent.resizable(0, 0)
 
@@ -161,7 +161,7 @@ label.grid(column=0, row=row, padx=10, pady=10)
 epochsNum_txt = ttk.Entry(parent, width=5)
 epochsNum_txt.grid(column=1, row=row, padx=10, pady=10)
 
-# Enter no. of epochs
+# Enter MSE threshold
 row = 7
 label = ttk.Label(parent, text="Enter MSE threshold:")
 label.grid(column=0, row=row, padx=10, pady=10)
@@ -222,15 +222,16 @@ def adalineModel():
     labels = [firstClassCB.get(), secondClassCB.get()]
     Adaline.test(x_test, y_test, W, labels)
 
-# perceptron.evaluate()
+
+#perceptron.evaluate()
 
 ###################### END Model ########################
 
-row = 8
+row = 9
 perceptronButton = ttk.Button(parent, text="perceptron", command=perceptronModel)
 perceptronButton.grid(column=0, row=row, padx=10, pady=10)
 
-row = 8
+row = 9
 adalineButton = ttk.Button(parent, text="adaline", command=adalineModel)
 adalineButton.grid(column=1, row=row, padx=10, pady=10)
 

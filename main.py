@@ -175,14 +175,14 @@ checkBox = ttk.Checkbutton(parent, text="Use Bias", variable=isBiased)
 checkBox.grid(column=0, row=row, padx=10, pady=10)
 
 ######################### Model #########################
-def modelOperations():
-    if firstFeatureCB.get() != "" and \
-       secondFeatureCB.get() != "" and \
-       firstClassCB.get() != "" and \
-       secondClassCB.get() != "" and \
-       learningRate_txt.get() != "" and \
-       epochsNum_txt.get() != "":
-
+def modelOperations(algorithm):
+    # if firstFeatureCB.get() != "" and \
+    #    secondFeatureCB.get() != "" and \
+    #    firstClassCB.get() != "" and \
+    #    secondClassCB.get() != "" and \
+    #    learningRate_txt.get() != "" and \
+    #    epochsNum_txt.get() != "":
+    try:
         # Prepare Data to be sent to the model
         x_train, y_train, x_test, y_test = prepareData(firstFeatureCB.get(), secondFeatureCB.get(), firstClassCB.get(), secondClassCB.get())
 
@@ -196,32 +196,35 @@ def modelOperations():
 
         # train then show drawing of plotted line
 
-        if(MSE_Threshold_txt.get() == ""):
-            return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get())
-
-        return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), float(MSE_Threshold_txt.get())
-    else:
+        if algorithm == 'perceptron':
+            return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), x_test, y_test
+        return np.array(x_train), np.array(y_train), isBiased.get(), float(learningRate_txt.get()), int(epochsNum_txt.get()), float(MSE_Threshold_txt.get()), x_test, y_test
+    # else:
+    except:
         tkmb.showinfo("Missing Data", "Enter all data")
 
 def perceptronModel():
+    try:
+        x_train, y_train, isBiased, learningRate, epochNum, x_test, y_test = modelOperations('perceptron')
 
-    x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold = modelOperations()
+        W = perceptron.train(x_train, y_train, isBiased, learningRate, epochNum)
 
-    W = perceptron.train(x_train, y_train, isBiased, learningRate, epochNum)
-
-    labels = [firstClassCB.get(), secondClassCB.get()]
-    perceptron.test(x_test, y_test, W, labels)
-    # show confusion matrix and accuracy
-
+        labels = [firstClassCB.get(), secondClassCB.get()]
+        perceptron.test(x_test, y_test, W, labels)
+        # show confusion matrix and accuracy
+    except:
+        pass
 
 def adalineModel():
-    x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold= modelOperations()
+    try:
+        x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold, x_test, y_test= modelOperations('adaline')
 
-    W = Adaline.train(x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold)
+        W = Adaline.train(x_train, y_train, isBiased, learningRate, epochNum, MSE_Threshold)
 
-    labels = [firstClassCB.get(), secondClassCB.get()]
-    Adaline.test(x_test, y_test, W, labels)
-
+        labels = [firstClassCB.get(), secondClassCB.get()]
+        Adaline.test(x_test, y_test, W, labels)
+    except:
+        pass
 
 #perceptron.evaluate()
 

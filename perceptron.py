@@ -68,7 +68,7 @@ def train(x_train, y_train, isBiased, learning_rate, epochsNum):
         if(y_pred[y] == y_train[y]):
             accuracy+=1
     accuracy = accuracy/len(y_pred)
-    print("======== Training Accuracy: ", end=' ')
+    print("======== Perceptron Training Accuracy: ", end=' ')
     print("{:.0%}".format(accuracy))
 
     # # Drawing the classification line
@@ -87,7 +87,7 @@ def test(x_test, y_test, W,labels):
         if predicted[i] != y_test[i]:
             NumOfMiss += 1
     Accuracy = 100 - ((NumOfMiss / len(x_test)) * 100)
-    print("======== Testing Accuracy is : ", Accuracy, "%")
+    print("======== Perceptron Testing Accuracy is : ", Accuracy, "%")
     #draw_classification_line(W, x_test[:, 1], x_test[:, 2])
     evaluate(y_test, predicted,labels)
 

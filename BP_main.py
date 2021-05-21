@@ -88,26 +88,44 @@ checkBox.grid(column=2, row=row, padx=10, pady=10)
 
 def callModel():
     try:
+        # -------------- FOR TESTING ------------------
+        isBiased = True
+        learningRate = 0.1
+        epochNum = 10
+        layersNum = 1
+        neuronsDistribution = [2]
+        activationFunction = 'Sigmoid'
+        # ---------------------------------------------
+
         # Prepare data to be sent to the model
         x_train, y_train, x_test, y_test = prepareData()
-
         # get num of neurons for each layer (list of int)
-        neuronsDistribution = [int(i) for i in neuronsNum_txt.get().split(',')]
-        if len(neuronsDistribution) != int(layersNum_txt.get()):
-            raise Exception("Sorry, Each hidden layer should has neurons number")
-
-        backpropagation.train(
+        # neuronsDistribution = [int(i) for i in neuronsNum_txt.get().split(',')]
+        # if len(neuronsDistribution) != int(layersNum_txt.get()):
+        #     raise Exception("Sorry, Each hidden layer should has neurons number")
+        #
+        # backpropagation.train(
+        #                       np.array(x_train),
+        #                       np.array(y_train),
+        #                       isBiased.get(),
+        #                       float(learningRate_txt.get()),
+        #                       int(epochsNum_txt.get()),
+        #                       int(layersNum_txt.get()),
+        #                       neuronsDistribution,
+        #                       activationFN_CB.get())
+        W=backpropagation.train(
                               np.array(x_train),
                               np.array(y_train),
-                              isBiased.get(),
-                              float(learningRate_txt.get()),
-                              int(epochsNum_txt.get()),
-                              int(layersNum_txt.get()),
+                              isBiased,
+                              learningRate,
+                              epochNum,
+                              layersNum,
                               neuronsDistribution,
-                              activationFN_CB.get())
-        # call test(np.array(x_test), np.array(y_test))
+                              activationFunction)
+        backpropagation.test(np.array(x_test),np.array(y_test),isBiased,learningRate,epochNum,layersNum,neuronsDistribution,activationFunction,W)
 
-    except:
+    except :
+        raise
         tkmb.showinfo("Data Error", "Please make sure you entered all the data correctly.")
 
 

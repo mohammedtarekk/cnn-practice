@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42fdc168-b2be-4851-b4ad-63ae3c2fd9a9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BP_main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backpropagation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Task.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Task.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BP_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/BP_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backpropagation.py" beforeDir="false" afterPath="$PROJECT_DIR$/backpropagation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +84,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="cnn3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Task" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../projects/Graduation_Project" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../../projects/Graduation_Project/cnn3.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Task" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,10 +152,12 @@
       <item itemvalue="Python.BP_main" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.perceptron" />
+      <item itemvalue="Python.cnn3" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.BP_main" />
+        <item itemvalue="Python.cnn3" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.perceptron" />
         <item itemvalue="Python.Adaline" />
@@ -192,14 +213,28 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/backpropagation.py</url>
-          <line>92</line>
-          <option name="timeStamp" value="30" />
+          <url>file://$PROJECT_DIR$/../../../../../projects/Graduation_Project/cnn3.py</url>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../../../../projects/Graduation_Project/cnn3.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/backpropagation.py</url>
-          <line>63</line>
-          <option name="timeStamp" value="33" />
+          <line>35</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/backpropagation.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/backpropagation.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

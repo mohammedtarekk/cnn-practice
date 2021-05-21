@@ -92,8 +92,8 @@ def callModel():
         isBiased = True
         learningRate = 0.1
         epochNum = 10
-        layersNum = 1
-        neuronsDistribution = [2]
+        layersNum = 2
+        neuronsDistribution = [2,4]
         activationFunction = 'Sigmoid'
         # ---------------------------------------------
 

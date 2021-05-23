@@ -93,12 +93,13 @@ def callModel():
         # learningRate = 0.1
         # epochNum = 10
         # layersNum = 2
-        # neuronsDistribution = [2,4]
+        # neuronsDistribution = [4, 2]
         # activationFunction = 'Sigmoid'
         # ---------------------------------------------
 
         # Prepare data to be sent to the model
         x_train, y_train, x_test, y_test = prepareData()
+
         # get num of neurons for each layer (list of int)
         neuronsDistribution = [int(i) for i in neuronsNum_txt.get().split(',')]
         if len(neuronsDistribution) != int(layersNum_txt.get()):
@@ -122,7 +123,14 @@ def callModel():
         #                       layersNum,
         #                       neuronsDistribution,
         #                       activationFunction)
-        backpropagation.test(np.array(x_test),np.array(y_test),isBiased,learningRate,epochNum,layersNum,neuronsDistribution,activationFunction,W)
+        backpropagation.test(
+            np.array(x_test),
+            np.array(y_test),
+            isBiased.get(),
+            int(layersNum_txt.get()),
+            neuronsDistribution,
+            activationFN_CB.get(),
+            W)
 
     except :
         raise

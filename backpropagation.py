@@ -160,53 +160,39 @@ def updateYDash(yDash):
 def test(x_test, y_test, isBiased, layersNum, neuronsDistribution, activationFunction, W):
     x_test = np.c_[np.ones((x_test.shape[0], 1)), x_test]
     y_pred = np.empty(y_test.shape)
+    YConfusionMatrix=[]
+    PConfusionMatrix=[]
     for sample in range(x_test.shape[0]):
         X = np.expand_dims(x_test[sample], axis=1)  # X vector of each sample
         Y = np.expand_dims(y_test[sample], axis=1)  # X vector of each sample
         yDash = forward_step_Testing(W[sample], X, Y.shape[0], activationFunction, layersNum, neuronsDistribution)
-
+        Y = yDash
+        MaxInd=0
+        MaxVal=Y[0]
+        for j in range(len(Y)):
+            if Y[j]>MaxVal:
+                MaxInd=j
+                MaxVal=Y[j]
+        PConfusionMatrix.append(MaxInd)
         y_pred[sample] = updateYDash(yDash)
 
+    for i in range(len(y_test)):
+        for j in range(len(y_test[0])):
+            if y_test[i,j]==1:
+                YConfusionMatrix.append(j)
+                break
+    NumOfMiss=0
+    for i in range(len(PConfusionMatrix)):
+            if(PConfusionMatrix[i]!=YConfusionMatrix[i]):
+                NumOfMiss+=1
 
-    accuracy = (y_test.size - np.sum(y_pred != y_test))/y_test.size
+    accuracy = 100 - ((NumOfMiss / len(PConfusionMatrix)) * 100)
     if isBiased:
-        print("======== Testing Accuracy with bias is : ", accuracy * 100, "%")
+        print("======== Testing Accuracy with bias is : ", accuracy , "%")
     else:
-        print("======== Testing Accuracy is : ", accuracy*100, "%")
+        print("======== Testing Accuracy is : ", accuracy, "%")
 
-    # # x_test=np.c_[np.ones((x_test.shape[0], 1)), x_test]
-    # Y_Predict=np.empty(y_test.shape)
-    # NumOfMiss=0;
-    # YConfusionMatrix=[]
-    # PConfusionMatrix=[]
-    # for i in range(len(x_test)):
-    #    FX=forward_step_Testing(W,x_test[i],len(y_test[0]),isBiased,activationFunction,layersNum,neuronsDistribution)
-    #    Y=FX[1]
-    #    MaxInd=0
-    #    MaxVal=Y[0]
-    #    for j in range(len(Y)):
-    #        if Y[j]>MaxVal:
-    #            MaxInd=j
-    #            MaxVal=Y[j]
-    #    PConfusionMatrix.append(MaxInd)
-    #    for k in range(len(Y)):
-    #        if k==MaxInd:
-    #            Y_Predict[i,k]=1
-    #        else:
-    #            Y_Predict[i,k]=0
-    # for i in range(len(y_test)):
-    #     for j in range(len(y_test[0])):
-    #        if y_test[i,j]!=Y_Predict[i,j]:
-    #           NumOfMiss += 1
-    #           break
-    # for i in range(len(y_test)):
-    #     for j in range(len(y_test[0])):
-    #         if y_test[i,j]==1:
-    #             YConfusionMatrix.append(j)
-    #             break
-    # Accuracy = 100 - ((NumOfMiss / len(x_test)) * 100)
-    # print("======== Testing Accuracy is : ", Accuracy, "%")
-    # evaluate(YConfusionMatrix,PConfusionMatrix)
+    evaluate(YConfusionMatrix,PConfusionMatrix)
 
 
 def evaluate(y_test, y_pred):

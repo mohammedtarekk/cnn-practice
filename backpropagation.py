@@ -26,11 +26,13 @@ def forward_step(X, numOfOutputNeurons, isBiased, activationFunction, layersNum,
     # for each hidden layer
     for l in range(layersNum + 1):
         if l == 0:
+            # if input layer
             lastNeuronsNum = X.shape[0]
         else:
             lastNeuronsNum = neuronsDistribution[l - 1] + 1  # this '+1' is for bias
 
         if l == layersNum:
+            # if output layer
             currentNeuronsNum = numOfOutputNeurons
         else:
             currentNeuronsNum = neuronsDistribution[l] + 1  # this '+1' is for bias
@@ -90,7 +92,10 @@ def updateWeights(W, learningRate, E, X, FX, layersNum):
             W[l] = W[l] + learningRate * np.dot(E[l], np.transpose(FX[l - 1]))
     return W
 
+'''
 
+
+'''
 def train(x_train, y_train, isBiased, learningRate, epochNum, layersNum, neuronsDistribution, activationFunction):
     # 1- add bias vector and create random weight vector w
     x_train = np.c_[np.ones((x_train.shape[0], 1)), x_train]
@@ -100,7 +105,7 @@ def train(x_train, y_train, isBiased, learningRate, epochNum, layersNum, neurons
     for epoch in range(epochNum):
         for sample in range(x_train.shape[0]):
             X = np.expand_dims(x_train[sample], axis=1)  # X vector of each sample
-            Y = np.expand_dims(y_train[sample], axis=1)  # X vector of each sample
+            Y = np.expand_dims(y_train[sample], axis=1)  # Y vector of each sample
 
             # W is the matrix of weights for each neuron
             # FX is the matrix of net values after activation Fn for each neuron
@@ -110,10 +115,6 @@ def train(x_train, y_train, isBiased, learningRate, epochNum, layersNum, neurons
                 mse = np.sum(np.power(E[layersNum],2))
                 if(mse <= 0.01):
                     break
-                # if all(E[layersNum] < 0.1):
-                #     break
-                # if np.sum(np.power(Y - FX[layersNum], 2)) < 0.04:
-                #     break
                 W[sample] = updateWeights(W[sample], learningRate, E, X, FX, layersNum)
                 W[sample], FX = forward_step(X, Y.shape[0], isBiased, activationFunction, layersNum, neuronsDistribution, True, W[sample])
 

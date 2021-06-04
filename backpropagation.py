@@ -12,7 +12,8 @@ def sigmoid(v):
 
 
 def hyperbolicTangentSigmoid(v):
-    return (1 - np.exp(-v)) / (1 + np.exp(-v))
+    t1 = (np.exp(-v) - np.exp(-v))
+    return  t1/ (np.exp(-v) + np.exp(-v))
 
 
 def forward_step(X, numOfOutputNeurons, isBiased, activationFunction, layersNum, neuronsDistribution, forUpdate=False, W=None):
@@ -50,34 +51,6 @@ def forward_step(X, numOfOutputNeurons, isBiased, activationFunction, layersNum,
 
 
 def forward_step_Testing(W, X, numOfOutputNeurons, activationFunction, layersNum, neuronsDistribution):
-    # # FX & weight matrix
-    # FX = [None]*(layersNum+1)
-    #
-    # # for each hidden layer
-    # for hl in range(layersNum):
-    #     FX[hl] = [None]*neuronsDistribution[hl]
-    #     FX[hl] = np.array(FX[hl])
-    #
-    #     # for each neuron
-    #     for n in range(neuronsDistribution[hl]):
-    #         v = np.dot(W[hl][n], X)
-    #         FX[hl][n] = sigmoid(v) if activationFunction == 'Sigmoid' else hyperbolicTangentSigmoid(v)
-    #
-    #     X = FX[hl]
-    #
-    # # adding ones on FX for bias
-    # FX[hl] = np.reshape(FX[hl], (1, FX[hl].shape[0]))
-    # # FX[hl] = np.c_[np.ones((FX[hl].shape[0], 1)), FX[hl]]
-    # hl += 1
-    # FX[hl] = [None] * numOfOutputNeurons
-    # FX[hl] = np.array(FX[hl])
-    # # for output layer neurons
-    # for n in range(numOfOutputNeurons):
-    #     v = np.dot(W[hl][n], FX[hl-1].T)
-    #     FX[hl][n] = sigmoid(v) if activationFunction == 'Sigmoid' else hyperbolicTangentSigmoid(v)
-    #
-    # # return FX of the output layer (y_pred)
-    # return FX
     FX = [None] * (layersNum + 1)
     # for each hidden layer
     for l in range(layersNum + 1):
@@ -134,8 +107,11 @@ def train(x_train, y_train, isBiased, learningRate, epochNum, layersNum, neurons
             W[sample], FX = forward_step(X, Y.shape[0], isBiased, activationFunction, layersNum, neuronsDistribution)
             while True:
                 E = backwardStep(Y, W[sample], FX, layersNum)
-                if all(E[layersNum] < 0.1):
+                mse = np.sum(np.power(E[layersNum],2))
+                if(mse <= 0.01):
                     break
+                # if all(E[layersNum] < 0.1):
+                #     break
                 # if np.sum(np.power(Y - FX[layersNum], 2)) < 0.04:
                 #     break
                 W[sample] = updateWeights(W[sample], learningRate, E, X, FX, layersNum)
